@@ -1,0 +1,137 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "HTL-.####",
+ "creation": "2026-06-01 06:48:02.511627",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "hotel_name",
+  "location",
+  "col_break_1",
+  "cost_center",
+  "contract",
+  "hotel_email",
+  "sec_rooms",
+  "room_types",
+  "section_break_bnry",
+  "rooms"
+ ],
+ "fields": [
+  {
+   "bold": 1,
+   "fieldname": "hotel_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Hotel Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "location",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Location",
+   "options": "Facility Location",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Cost Center",
+   "options": "Cost Center"
+  },
+  {
+   "fieldname": "contract",
+   "fieldtype": "Link",
+   "label": "Contract",
+   "options": "Project"
+  },
+  {
+   "fieldname": "hotel_email",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Hotel Email"
+  },
+  {
+   "fieldname": "sec_rooms",
+   "fieldtype": "Section Break",
+   "label": "Room Types"
+  },
+  {
+   "fieldname": "room_types",
+   "fieldtype": "Table",
+   "hidden": 1,
+   "label": "Room Types",
+   "options": "Hotel Room Type Detail"
+  },
+  {
+   "fieldname": "section_break_bnry",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "rooms",
+   "fieldtype": "Table",
+   "label": "Rooms",
+   "options": "Hotel Room Detail"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-29 12:36:18.101272",
+ "modified_by": "Administrator",
+ "module": "Facility",
+ "name": "Hotel Master",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "hotel_name",
+ "track_changes": 1
+}

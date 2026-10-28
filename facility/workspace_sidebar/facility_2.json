@@ -1,0 +1,38 @@
+{
+ "app": "facility",
+ "creation": "2026-06-01 09:14:02.955410",
+ "docstatus": 0,
+ "doctype": "Workspace Sidebar",
+ "header_icon": "",
+ "idx": 0,
+ "items": [
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Facility Location",
+   "link_to": "Facility Location",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Transportation Location",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-06-01 10:00:37.797012",
+ "modified_by": "Administrator",
+ "module": "Facility",
+ "name": "Facility_2",
+ "owner": "Administrator",
+ "standard": 1,
+ "title": "Facility_2"
+}

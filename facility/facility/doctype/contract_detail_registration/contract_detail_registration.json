@@ -1,0 +1,95 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "CON-REG-.YYYY.-####",
+ "creation": "2026-07-29 12:54:47.237392",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "contract_no",
+  "contract_title",
+  "contract_category",
+  "scope_of_work",
+  "sub_contractor_name_if_applicable",
+  "contract_value",
+  "contract_period_from",
+  "contract_period_to",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "fieldname": "contract_no",
+   "fieldtype": "Data",
+   "label": "Contract No"
+  },
+  {
+   "fieldname": "contract_title",
+   "fieldtype": "Data",
+   "label": "Contract Title"
+  },
+  {
+   "fieldname": "contract_category",
+   "fieldtype": "Link",
+   "label": "Contract Category",
+   "options": "Contract Category"
+  },
+  {
+   "fieldname": "scope_of_work",
+   "fieldtype": "Small Text",
+   "label": "Scope Of Work"
+  },
+  {
+   "fieldname": "sub_contractor_name_if_applicable",
+   "fieldtype": "Data",
+   "label": "Sub Contractor Name (If Applicable)"
+  },
+  {
+   "fieldname": "contract_value",
+   "fieldtype": "Float",
+   "label": "Contract Value"
+  },
+  {
+   "fieldname": "contract_period_from",
+   "fieldtype": "Datetime",
+   "label": "Contract Period From"
+  },
+  {
+   "fieldname": "contract_period_to",
+   "fieldtype": "Datetime",
+   "label": "Contract Period To"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-29 12:58:53.262391",
+ "modified_by": "Administrator",
+ "module": "Facility",
+ "name": "Contract Detail Registration",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,254 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "PARCEL-.####",
+ "creation": "2026-06-03 12:26:01.652355",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "sec_receiver",
+  "receiver_employee",
+  "col_break_1",
+  "receiver_name",
+  "sec_sender",
+  "sender_employee",
+  "col_break_2",
+  "sender_name",
+  "sec_parcel",
+  "parcel_no",
+  "col_break_3",
+  "transport_provider",
+  "sec_locations",
+  "from_location",
+  "from_locname",
+  "col_break_4",
+  "to_location",
+  "to_locname",
+  "sec_date",
+  "date",
+  "col_break_5",
+  "status",
+  "sec_remarks",
+  "remarks",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "sec_receiver",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "receiver_employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Receiver Employee No",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "receiver_employee.employee_name",
+   "fieldname": "receiver_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_sender",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "sender_employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Sender Employee No",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "sender_employee.employee_name",
+   "fieldname": "sender_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_parcel",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "parcel_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Parcel No",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "transport_provider",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Transport Provider",
+   "options": "Transportation Location"
+  },
+  {
+   "fieldname": "sec_locations",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "from_location",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "From",
+   "options": "Transportation Location",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "to_location",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "To",
+   "options": "Transportation Location",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sec_date",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_break_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Draft\nPending For Receival\nReceived\nRejected",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_remarks",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Parcel",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "from_location.location_name",
+   "fieldname": "from_locname",
+   "fieldtype": "Data",
+   "label": "From Location"
+  },
+  {
+   "fetch_from": "to_location.location_name",
+   "fieldname": "to_locname",
+   "fieldtype": "Data",
+   "label": "To Location"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-10-27 12:54:46.695314",
+ "modified_by": "Administrator",
+ "module": "Facility",
+ "name": "Parcel",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Administrator",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "parcel_no",
+ "track_changes": 1
+}

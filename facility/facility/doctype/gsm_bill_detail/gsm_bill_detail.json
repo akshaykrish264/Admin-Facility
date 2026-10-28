@@ -1,0 +1,72 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-06-03 11:23:06.167048",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "gsm_no",
+  "month",
+  "year",
+  "credit_used",
+  "data_used"
+ ],
+ "fields": [
+  {
+   "columns": 2,
+   "fieldname": "gsm_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "GSM No",
+   "reqd": 1
+  },
+  {
+   "columns": 2,
+   "fieldname": "month",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Month",
+   "options": "January\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "year",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Year",
+   "options": "2023\n2024\n2025\n2026\n2027\n2028\n2029\n2030",
+   "reqd": 1
+  },
+  {
+   "columns": 2,
+   "fieldname": "credit_used",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Credit Used"
+  },
+  {
+   "columns": 2,
+   "fieldname": "data_used",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Data Used (GB)"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-06-03 11:23:06.167048",
+ "modified_by": "Administrator",
+ "module": "Facility",
+ "name": "GSM Bill Detail",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

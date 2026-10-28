@@ -1,0 +1,21 @@
+{
+ "app": "facility",
+ "bg_color": "gray",
+ "creation": "2026-06-01 10:07:27.798962",
+ "docstatus": 0,
+ "doctype": "Desktop Icon",
+ "hidden": 0,
+ "icon": "fa fa-building",
+ "icon_type": "App",
+ "idx": 0,
+ "label": "Facility",
+ "link_type": "Workspace Sidebar",
+ "modified": "2026-06-01 10:07:27.798962",
+ "modified_by": "Administrator",
+ "name": "Facility",
+ "owner": "Administrator",
+ "restrict_removal": 0,
+ "roles": [],
+ "sidebar": "Facility",
+ "standard": 1
+}
