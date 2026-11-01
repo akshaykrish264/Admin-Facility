@@ -102,3 +102,56 @@ class MedicalTreatmentInvoiceEntry(Document):
 
 		self.total = sum(flt(row.bill_amount) for row in self.medical_requests)
 		return counts
+
+
+def get_existing_field(doctype, fieldname):
+	"""Fieldname as it exists on the site: custom fields added from the UI get a `custom_` prefix."""
+	meta = frappe.get_meta(doctype)
+	for name in (fieldname, f"custom_{fieldname}"):
+		if meta.has_field(name):
+			return name
+	frappe.throw(
+		_("{0} has no field {1}. Add it as a Custom Field to filter this list.").format(
+			_(doctype), frappe.bold(fieldname)
+		)
+	)
+
+
+def search_with_filters(doctype, txt, searchfield, start, page_len, filters, title_field):
+	"""Link search run server side, so filtering on a custom field does not need
+	field-level read permission. The user still needs access to the doctype itself."""
+	if not frappe.has_permission(doctype, "select") and not frappe.has_permission(doctype, "read"):
+		frappe.throw(_("Not permitted to read {0}").format(_(doctype)), frappe.PermissionError)
+
+	return frappe.get_all(
+		doctype,
+		filters=filters,
+		or_filters={"name": ["like", f"%{txt}%"], title_field: ["like", f"%{txt}%"]},
+		fields=["name", title_field],
+		order_by="name",
+		start=start,
+		page_length=page_len,
+		as_list=True,
+	)
+
+
+@frappe.whitelist()
+@frappe.validate_and_sanitize_search_inputs
+def medical_item_query(doctype, txt, searchfield, start, page_len, filters):
+	"""Items in group Services with item category Medical."""
+	return search_with_filters(
+		"Item", txt, searchfield, start, page_len,
+		{"item_group": "Services", get_existing_field("Item", "item_category"): "Medical", "disabled": 0},
+		"item_name",
+	)
+
+
+@frappe.whitelist()
+@frappe.validate_and_sanitize_search_inputs
+def clinic_supplier_query(doctype, txt, searchfield, start, page_len, filters):
+	"""Suppliers flagged as clinics."""
+	return search_with_filters(
+		"Supplier", txt, searchfield, start, page_len,
+		{get_existing_field("Supplier", "is_clinic"): 1, "disabled": 0},
+		"supplier_name",
+	)
