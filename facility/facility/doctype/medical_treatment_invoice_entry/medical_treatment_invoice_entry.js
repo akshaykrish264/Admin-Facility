@@ -6,7 +6,7 @@ frappe.ui.form.on("Medical Treatment Invoice Entry", {
 		// Filtered on the server: a client-side filter on a custom field
 		// fails with "You do not have permission to access field"
 		const method = "facility.facility.doctype.medical_treatment_invoice_entry.medical_treatment_invoice_entry";
-		// Item: group = Services, item_category = Medical
+		// Item: group = Medical Services, item_category = Medical
 		frm.set_query("item_code", () => ({ query: `${method}.medical_item_query` }));
 		// Supplier: clinics only
 		frm.set_query("supplier", () => ({ query: `${method}.clinic_supplier_query` }));

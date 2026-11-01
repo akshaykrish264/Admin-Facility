@@ -138,10 +138,10 @@ def search_with_filters(doctype, txt, searchfield, start, page_len, filters, tit
 @frappe.whitelist()
 @frappe.validate_and_sanitize_search_inputs
 def medical_item_query(doctype, txt, searchfield, start, page_len, filters):
-	"""Items in group Services with item category Medical."""
+	"""Items in group Medical Services with item category Medical."""
 	return search_with_filters(
 		"Item", txt, searchfield, start, page_len,
-		{"item_group": "Services", get_existing_field("Item", "item_category"): "Medical", "disabled": 0},
+		{"item_group": "Medical Services", get_existing_field("Item", "item_category"): "Medical", "disabled": 0},
 		"item_name",
 	)
 
