@@ -138,8 +138,17 @@ _status_events = {
 	"on_cancel": "facility.utils.set_status",
 }
 
+# Approval doctypes also record who drafted / sent / approved / rejected / cancelled
+_approval_events = {
+	"validate": ["facility.utils.set_status", "facility.utils.set_workflow_users"],
+	"before_submit": "facility.utils.set_workflow_users",
+	"on_submit": "facility.utils.set_status",
+	"before_cancel": "facility.utils.set_workflow_users",
+	"on_cancel": "facility.utils.set_status",
+}
+
 doc_events = {
-	doctype: _status_events
+	doctype: _approval_events
 	for doctype in (
 		"Accommodation Request",
 		"Accommodation Booking",
@@ -148,10 +157,10 @@ doc_events = {
 		"Insurance Card Request",
 		"Medical Treatment Request",
 		"Medical Treatment Invoice Entry",
-		"Parcel",
 		"Transportation Request",
 	)
 }
+doc_events["Parcel"] = _status_events
 
 # Scheduled Tasks
 # ---------------

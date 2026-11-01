@@ -23,7 +23,13 @@
   "passengers",
   "section_break_3",
   "remarks",
-  "amended_from"
+  "amended_from",
+  "workflow_approval_section",
+  "drafted_by",
+  "sent_for_approval_by",
+  "approved_by",
+  "rejected_by",
+  "cancelled_by"
  ],
  "fields": [
   {
@@ -127,13 +133,64 @@
    "fieldname": "to_locname",
    "fieldtype": "Data",
    "label": "To Location"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "workflow_approval_section",
+   "fieldtype": "Section Break",
+   "label": "Workflow Approval Details"
+  },
+  {
+   "fieldname": "drafted_by",
+   "fieldtype": "Link",
+   "label": "Drafted By",
+   "no_copy": 1,
+   "options": "User",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "sent_for_approval_by",
+   "fieldtype": "Link",
+   "label": "Sent for Approval By",
+   "no_copy": 1,
+   "options": "User",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "approved_by",
+   "fieldtype": "Link",
+   "label": "Approved By",
+   "no_copy": 1,
+   "options": "User",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "rejected_by",
+   "fieldtype": "Link",
+   "label": "Rejected By",
+   "no_copy": 1,
+   "options": "User",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "cancelled_by",
+   "fieldtype": "Link",
+   "label": "Cancelled By",
+   "no_copy": 1,
+   "options": "User",
+   "print_hide": 1,
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-11-01 12:45:00.000000",
+ "modified": "2026-11-01 19:39:06.000000",
  "modified_by": "Administrator",
  "module": "Facility",
  "name": "Transportation Request",
