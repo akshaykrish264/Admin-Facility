@@ -104,7 +104,7 @@
   },
   {
    "fieldname": "rate",
-   "fieldtype": "Data",
+   "fieldtype": "Currency",
    "label": "Rate"
   }
  ],
@@ -112,7 +112,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-08-03 12:46:17.726631",
+ "modified": "2026-10-28 18:01:55.969646",
  "modified_by": "Administrator",
  "module": "Facility",
  "name": "Camp Booking Detail",

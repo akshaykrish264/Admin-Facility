@@ -11,15 +11,14 @@ app_license = "mit"
 # required_apps = []
 
 # Each item in the list will be shown as an app in the apps page
-# add_to_apps_screen = [
-# 	{
-# 		"name": "facility",
-# 		"logo": "/assets/facility/logo.png",
-# 		"title": "Facility",
-# 		"route": "/facility",
-# 		"has_permission": "facility.api.permission.has_app_permission"
-# 	}
-# ]
+add_to_apps_screen = [
+	{
+		"name": "facility",
+		"logo": "/assets/facility/images/facility-logo.svg",
+		"title": "Facility",
+		"route": "/desk/facility",
+	}
+]
 
 # Includes in <head>
 # ------------------
@@ -43,7 +42,7 @@ app_license = "mit"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {"Employee": "public/js/employee.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -86,7 +85,8 @@ app_license = "mit"
 # ------------
 
 # before_install = "facility.install.before_install"
-# after_install = "facility.install.after_install"
+after_install = "facility.install.after_install"
+after_migrate = "facility.install.after_migrate"
 
 # Uninstallation
 # ------------
@@ -132,13 +132,26 @@ app_license = "mit"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+_status_events = {
+	"validate": "facility.utils.set_status",
+	"on_submit": "facility.utils.set_status",
+	"on_cancel": "facility.utils.set_status",
+}
+
+doc_events = {
+	doctype: _status_events
+	for doctype in (
+		"Accommodation Request",
+		"Accommodation Booking",
+		"Flight Ticket Booking",
+		"GSM Request",
+		"Insurance Card Request",
+		"Medical Treatment Request",
+		"Medical Treatment Invoice Entry",
+		"Parcel",
+		"Transportation Request",
+	)
+}
 
 # Scheduled Tasks
 # ---------------

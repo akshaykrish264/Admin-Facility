@@ -5,11 +5,26 @@
 // availability warning as dates/room types change.
 // ============================================================
 frappe.ui.form.on('Accommodation Request', {
+    setup: function(frm) {
+        // Only offer hotels/camps at the destination location
+        ['hotel_name', 'camp_name'].forEach(function(field) {
+            frm.set_query(field, function() {
+                return frm.doc.to_location ? { filters: { location: frm.doc.to_location } } : {};
+            });
+        });
+    },
+
     refresh: function(frm) {
         // Ensures the banner and room-type filtering are already in place
         // when an existing record loads — not only after a field change
         refresh_room_type_options(frm);
         check_availability(frm);
+        add_create_booking_button(frm);
+    },
+
+    to_location: function(frm) {
+        frm.set_value('hotel_name', '');
+        frm.set_value('camp_name', '');
     },
 
     accommodation_type: function(frm) {
@@ -38,14 +53,26 @@ frappe.ui.form.on('Accommodation Request', {
 
     check_out: function(frm) {
         check_availability(frm);
-    },
-
-    // Fires after a row is deleted from the passengers grid — without this,
-    // the "This Request" counts in the banner go stale after a delete
-    passengers_remove: function(frm) {
-        check_availability(frm);
     }
 });
+
+// Submitted request -> Accommodation Booking, offered only while no
+// active (draft or submitted) booking exists for this request
+function add_create_booking_button(frm) {
+    if (frm.doc.docstatus !== 1) return;
+
+    frappe.db.count('Accommodation Booking', {
+        filters: { accommodation_request: frm.doc.name, docstatus: ['<', 2] }
+    }).then(function(count) {
+        if (count) return;
+        frm.add_custom_button(__('Accommodation Booking'), function() {
+            frappe.model.open_mapped_doc({
+                method: 'facility.facility.doctype.accommodation_request.accommodation_request.make_accommodation_booking',
+                frm: frm
+            });
+        }, __('Create'));
+    });
+}
 
 function get_master_name(frm) {
     if (frm.doc.accommodation_type === 'Hotel') {
@@ -186,14 +213,22 @@ function render_availability_banner(frm, availability) {
 
 // ============================================================
 // CHILD TABLE: Accommodation Request Passenger
-// (your existing logic — unchanged, plus a room_type check)
+// Read-only / mandatory state of employee_id and guest_name is set per
+// row in the doctype (read_only_depends_on / mandatory_depends_on);
+// toggling it grid-wide here changed every row, not just this one.
 // ============================================================
 frappe.ui.form.on('Accommodation Request Passenger', {
     is_emp: function(frm, cdt, cdn) {
-        toggle_employee_fields(frm, cdt, cdn);
+        frappe.model.set_value(cdt, cdn, 'employee_id', '');
+        frappe.model.set_value(cdt, cdn, 'guest_name', '');
+        frappe.model.set_value(cdt, cdn, 'designation', '');
     },
     passengers_add: function(frm, cdt, cdn) {
-        toggle_employee_fields(frm, cdt, cdn);
+        check_availability(frm);
+    },
+    // The _remove event is triggered on the child doctype, so it has to
+    // live here; on the parent it never fired and the banner went stale
+    passengers_remove: function(frm) {
         check_availability(frm);
     },
     employee_id: function(frm, cdt, cdn) {
@@ -217,22 +252,3 @@ frappe.ui.form.on('Accommodation Request Passenger', {
         check_availability(frm);
     }
 });
-
-function toggle_employee_fields(frm, cdt, cdn) {
-    var row = locals[cdt][cdn];
-    if (row.is_emp) {
-        frm.fields_dict['passengers'].grid.update_docfield_property('employee_id', 'read_only', 0);
-        frm.fields_dict['passengers'].grid.update_docfield_property('guest_name', 'read_only', 1);
-        frm.fields_dict['passengers'].grid.update_docfield_property('designation', 'read_only', 1);
-        frm.fields_dict['passengers'].grid.update_docfield_property('employee_id', 'reqd', 1);
-    } else {
-        frappe.model.set_value(cdt, cdn, 'employee_id', '');
-        frappe.model.set_value(cdt, cdn, 'guest_name', '');
-        frappe.model.set_value(cdt, cdn, 'designation', '');
-        frm.fields_dict['passengers'].grid.update_docfield_property('employee_id', 'read_only', 1);
-        frm.fields_dict['passengers'].grid.update_docfield_property('employee_id', 'reqd', 0);
-        frm.fields_dict['passengers'].grid.update_docfield_property('guest_name', 'read_only', 0);
-        frm.fields_dict['passengers'].grid.update_docfield_property('designation', 'read_only', 0);
-    }
-    frm.refresh_field('passengers');
-}

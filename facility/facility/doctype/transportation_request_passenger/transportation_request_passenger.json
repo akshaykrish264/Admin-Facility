@@ -26,7 +26,9 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Emp No",
-   "options": "Employee"
+   "options": "Employee",
+   "read_only_depends_on": "eval:!doc.is_emp",
+   "mandatory_depends_on": "eval:doc.is_emp"
   },
   {
    "columns": 4,
@@ -34,7 +36,9 @@
    "fieldname": "passenger_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Name"
+   "label": "Name",
+   "read_only_depends_on": "eval:doc.is_emp",
+   "mandatory_depends_on": "eval:!doc.is_emp"
   },
   {
    "columns": 4,
@@ -48,7 +52,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-07-29 14:23:47.342887",
+ "modified": "2026-10-28 18:01:55.969646",
  "modified_by": "Administrator",
  "module": "Facility",
  "name": "Transportation Request Passenger",

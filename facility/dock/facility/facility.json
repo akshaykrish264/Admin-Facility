@@ -1,0 +1,23 @@
+{
+ "app": "facility",
+ "creation": "2026-10-29 00:32:42.309970",
+ "docstatus": 0,
+ "doctype": "Dock",
+ "idx": 0,
+ "items": [
+  {
+   "added": 0,
+   "hidden": 0,
+   "icon": "building-2",
+   "link_to": "Facility",
+   "link_type": "Sidebar",
+   "title": "Facility"
+  }
+ ],
+ "modified": "2026-10-29 00:32:42.309970",
+ "modified_by": "Administrator",
+ "name": "facility",
+ "owner": "Administrator",
+ "standard": 1,
+ "user": ""
+}

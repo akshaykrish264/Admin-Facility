@@ -40,12 +40,14 @@
   {
    "fieldname": "from",
    "fieldtype": "Datetime",
-   "label": "From"
+   "label": "From",
+   "reqd": 1
   },
   {
    "fieldname": "to",
    "fieldtype": "Datetime",
-   "label": "To"
+   "label": "To",
+   "reqd": 1
   },
   {
    "fieldname": "no_of_people",
@@ -62,7 +64,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-29 11:41:11.755668",
+ "modified": "2026-10-28 18:01:55.969646",
  "modified_by": "Administrator",
  "module": "Facility",
  "name": "Hall Booking Request",

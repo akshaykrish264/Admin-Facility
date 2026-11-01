@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "CON-REG-.YYYY.-####",
+ "autoname": "CON-REG-.YYYY.-.####",
  "creation": "2026-07-29 12:54:47.237392",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -67,7 +67,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-29 12:58:53.262391",
+ "modified": "2026-10-28 18:20:50.635726",
  "modified_by": "Administrator",
  "module": "Facility",
  "name": "Contract Detail Registration",

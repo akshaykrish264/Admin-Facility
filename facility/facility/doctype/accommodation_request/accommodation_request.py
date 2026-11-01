@@ -1,12 +1,49 @@
 import frappe
 from frappe import _
 from frappe.model.document import Document
-from frappe.utils import cint, formatdate
+from frappe.utils import cint, formatdate, get_datetime
 
 
 class AccommodationRequest(Document):
     def validate(self):
+        self.validate_dates()
+        self.validate_master()
+        self.validate_passengers()
         self.validate_room_type_availability()
+
+    def before_submit(self):
+        if not self.passengers:
+            frappe.throw(_("Add at least one passenger before submitting"))
+
+    def validate_dates(self):
+        if self.check_in and self.check_out and get_datetime(self.check_out) <= get_datetime(self.check_in):
+            frappe.throw(_("Check Out must be after Check In"))
+
+    def validate_master(self):
+        # Keep only the link that matches the accommodation type
+        if self.accommodation_type == "Hotel":
+            self.camp_name = None
+            if not self.hotel_name:
+                frappe.throw(_("Hotel Name is required for a Hotel request"))
+        elif self.accommodation_type == "Camp":
+            self.hotel_name = None
+            if not self.camp_name:
+                frappe.throw(_("Camp Name is required for a Camp request"))
+
+    def validate_passengers(self):
+        for p in self.passengers:
+            if p.is_emp:
+                if not p.employee_id:
+                    frappe.throw(_("Row #{0}: Employee is required").format(p.idx))
+                emp = frappe.db.get_value(
+                    "Employee", p.employee_id, ["employee_name", "designation"], as_dict=True
+                )
+                p.guest_name = emp.employee_name
+                p.designation = emp.designation
+            else:
+                p.employee_id = None
+                if not p.guest_name:
+                    frappe.throw(_("Row #{0}: Guest Name is required").format(p.idx))
 
     def validate_room_type_availability(self):
         if not self.accommodation_type or not self.check_in or not self.check_out:
@@ -220,3 +257,13 @@ def get_room_types_for_master(accommodation_type, master_name):
             room_types.append(r.room_type)
 
     return room_types
+
+
+@frappe.whitelist()
+def make_accommodation_booking(source_name):
+    """Creates an Accommodation Booking pre-filled from a submitted request.
+    Room numbers are left blank for the facility team to allocate."""
+    booking = frappe.new_doc("Accommodation Booking")
+    booking.accommodation_request = source_name
+    booking.set_details_from_request()
+    return booking

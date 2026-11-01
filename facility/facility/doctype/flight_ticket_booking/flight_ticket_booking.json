@@ -90,11 +90,11 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": "Today",
    "fieldname": "return_date",
    "fieldtype": "Date",
    "label": "Return Date",
-   "reqd": 1
+   "depends_on": "eval:doc.way=='Return'",
+   "mandatory_depends_on": "eval:doc.way=='Return'"
   },
   {
    "fieldname": "sec_locations",
@@ -158,8 +158,9 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Status",
-   "options": "Draft\nPending Approval\nApproved\nRejected",
-   "read_only": 1
+   "options": "Draft\nPending Approval\nApproved\nRejected\nCancelled",
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "col_break_4",
@@ -196,7 +197,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-09-17 09:45:48.101928",
+ "modified": "2026-11-01 12:45:00.000000",
  "modified_by": "Administrator",
  "module": "Facility",
  "name": "Flight Ticket Booking",
@@ -264,6 +265,19 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Facility Approver",
    "share": 1,
    "submit": 1,
    "write": 1

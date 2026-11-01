@@ -28,8 +28,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Supplier",
-   "options": "Supplier",
-   "read_only": 1
+   "options": "Supplier"
   },
   {
    "fieldname": "col_break_1",
@@ -51,7 +50,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-06-04 06:39:11.302570",
+ "modified": "2026-10-28 18:06:02.631709",
  "modified_by": "Administrator",
  "module": "Facility",
  "name": "Clinic Master",

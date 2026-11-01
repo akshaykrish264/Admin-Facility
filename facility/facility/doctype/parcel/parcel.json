@@ -105,8 +105,7 @@
    "fieldname": "transport_provider",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Transport Provider",
-   "options": "Transportation Location"
+   "label": "Transport Provider"
   },
   {
    "fieldname": "sec_locations",
@@ -155,8 +154,9 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Status",
-   "options": "Draft\nPending For Receival\nReceived\nRejected",
-   "read_only": 1
+   "options": "Draft\nPending For Receival\nReceived\nRejected\nCancelled",
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "sec_remarks",
@@ -194,7 +194,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-10-27 12:54:46.695314",
+ "modified": "2026-10-28 18:01:55.969646",
  "modified_by": "Administrator",
  "module": "Facility",
  "name": "Parcel",

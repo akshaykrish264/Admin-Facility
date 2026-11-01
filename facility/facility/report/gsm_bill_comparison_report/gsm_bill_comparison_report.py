@@ -180,9 +180,16 @@ def get_data(filters):
         data_balance = data_limit - data_used
         credit_balance = credit_limit - credit_used
 
-        if data_balance < 0 or credit_balance < 0:
+        # A limit of 0 means "not set" on the GSM Number, so it is not
+        # compared; otherwise every unset limit showed as Limit Reached
+        data_capped = bool(data_limit)
+        credit_capped = bool(credit_limit)
+
+        if not gsm_data:
+            status = "Not Registered"
+        elif (data_capped and data_balance < 0) or (credit_capped and credit_balance < 0):
             status = "Exceeded"
-        elif data_balance == 0 or credit_balance == 0:
+        elif (data_capped and data_balance == 0) or (credit_capped and credit_balance == 0):
             status = "Limit Reached"
         elif data_limit and data_used >= data_limit * 0.8:
             status = "Near Limit"
@@ -209,7 +216,7 @@ def get_data(filters):
         })
 
     # Sort: Exceeded first, then Limit Reached, Near Limit, Normal
-    status_order = {"Exceeded": 0, "Limit Reached": 1, "Near Limit": 2, "Normal": 3}
+    status_order = {"Exceeded": 0, "Not Registered": 1, "Limit Reached": 2, "Near Limit": 3, "Normal": 4}
     data.sort(key=lambda x: status_order.get(x["status"], 4))
 
     return data

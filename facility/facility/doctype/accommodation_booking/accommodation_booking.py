@@ -1,12 +1,105 @@
 import frappe
 from frappe import _
 from frappe.model.document import Document
-from frappe.utils import formatdate
+from frappe.utils import cint, formatdate
 
 
 class AccommodationBooking(Document):
     def validate(self):
+        self.validate_request()
+        if not (self.camp_details or self.hotel_details):
+            self.set_details_from_request()
         self.validate_room_no_conflicts()
+        self.validate_room_occupancy()
+        self.set_rates()
+
+    def set_rates(self):
+        """Rate comes from the master's room row, so it is right even when
+        rows are filled by API/import rather than the form."""
+        is_camp = self.accommodation_type == "Camp"
+        master_doctype = "Camp Master" if is_camp else "Hotel Master"
+        master_name = self.camp_name if is_camp else self.hotel_name
+        if not master_name:
+            return
+        rates = {
+            r.room_no: r.rate
+            for r in frappe.get_doc(master_doctype, master_name).get("rooms") or []
+        }
+        for row in (self.camp_details if is_camp else self.hotel_details) or []:
+            row.rate = rates.get(row.room_no) if row.room_no else 0
+
+    def before_submit(self):
+        rows = self.camp_details if self.accommodation_type == "Camp" else self.hotel_details
+        if not rows:
+            frappe.throw(_("No guests to book. Re-select the Accommodation Request."))
+
+    def validate_request(self):
+        req = frappe.db.get_value(
+            "Accommodation Request", self.accommodation_request, ["docstatus"], as_dict=True
+        )
+        if not req or req.docstatus != 1:
+            frappe.throw(_("Accommodation Request {0} must be submitted before booking").format(
+                self.accommodation_request
+            ))
+
+        existing = frappe.db.get_value(
+            "Accommodation Booking",
+            {
+                "accommodation_request": self.accommodation_request,
+                "docstatus": ["<", 2],
+                "name": ["!=", self.name or ""],
+            },
+        )
+        if existing:
+            frappe.throw(_("Accommodation Request {0} is already booked in {1}").format(
+                self.accommodation_request, existing
+            ))
+
+    @frappe.whitelist()
+    def set_details_from_request(self):
+        """Copies header fields and one booking row per passenger from the
+        linked request. Room No is left for the facility team to allocate."""
+        req = frappe.get_doc("Accommodation Request", self.accommodation_request)
+
+        for field in ("from_location", "to_location", "accommodation_type",
+                      "check_in", "check_out", "hotel_name", "camp_name"):
+            self.set(field, req.get(field))
+
+        is_camp = req.accommodation_type == "Camp"
+        master_doctype = "Camp Master" if is_camp else "Hotel Master"
+        master_name = req.camp_name if is_camp else req.hotel_name
+        self.cost_center = frappe.db.get_value(master_doctype, master_name, "cost_center")
+
+        self.set("camp_details", [])
+        self.set("hotel_details", [])
+        for p in req.passengers:
+            self.append("camp_details" if is_camp else "hotel_details", {
+                "employee_id": p.employee_id,
+                "is_emp": p.is_emp,
+                "camp" if is_camp else "hotel": master_name,
+                "from_date": req.check_in,
+                "to_date": req.check_out,
+                "guest_name": p.guest_name,
+                "designation": p.designation,
+                "room_type": p.room_type,
+                "remarks": p.justification,
+            })
+
+    def validate_room_occupancy(self):
+        """A room can be shared (e.g. a Double) but not beyond the
+        occupancy of its room type."""
+        rows = self.camp_details if self.accommodation_type == "Camp" else self.hotel_details
+        guests_per_room = {}
+        for row in rows or []:
+            if row.room_no:
+                guests_per_room.setdefault((row.room_no, row.room_type), []).append(row.idx)
+
+        for (room_no, room_type), idxs in guests_per_room.items():
+            occupancy = cint(frappe.db.get_value("Accommodation Room Types", room_type, "occupancy")) or 1
+            if len(idxs) > occupancy:
+                frappe.throw(_("Room {0} ({1}) holds {2} guest(s) but is assigned to rows {3}").format(
+                    room_no, room_type, occupancy, ", ".join(str(i) for i in idxs)
+                ))
 
     def validate_room_no_conflicts(self):
         if not self.accommodation_type or not self.check_in or not self.check_out:
