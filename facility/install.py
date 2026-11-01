@@ -48,6 +48,38 @@ def after_install():
 def after_migrate():
 	setup_approval_workflows()
 	setup_employee_insurance_tab()
+	setup_medical_invoice_fields()
+
+
+def setup_medical_invoice_fields():
+	"""Fields the Medical Treatment Invoice Entry Item / Supplier filters rely on:
+	Item.item_category (= Medical) and Supplier.is_clinic. A field already added
+	by hand (with or without the `custom_` prefix) is left as it is."""
+	fields = {
+		"Item": {
+			"fieldname": "item_category",
+			"fieldtype": "Link",
+			"label": "Item Category",
+			"options": "Item Category",
+			"insert_after": "item_group",
+		},
+		"Supplier": {
+			"fieldname": "is_clinic",
+			"fieldtype": "Check",
+			"label": "Is Clinic",
+			"insert_after": "supplier_group",
+		},
+	}
+	missing = {}
+	for doctype, df in fields.items():
+		meta = frappe.get_meta(doctype)
+		if not (meta.has_field(df["fieldname"]) or meta.has_field(f"custom_{df['fieldname']}")):
+			missing[doctype] = [df]
+	if missing:
+		create_custom_fields(missing)
+
+	if not frappe.db.exists("Item Category", "Medical"):
+		frappe.get_doc({"doctype": "Item Category", "category_name": "Medical"}).insert(ignore_permissions=True)
 
 
 def setup_approval_workflows():
